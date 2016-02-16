@@ -33,7 +33,6 @@ var Tile = (function () {
     };
 
     Tile.prototype.dispatchStateChange = function () {
-        console.log("dispatchTap");
         this.onTap.dispatch(this);
     };
 

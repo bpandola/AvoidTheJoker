@@ -105,7 +105,7 @@ AvoidTheJoker.Game.prototype = {
                 if (this.leftMost == this.rightMost) {
                     this.levelUp();
                 } else {
-                    this.restartGame();
+                    this.levelDown();
                 }
 
                 
@@ -143,8 +143,11 @@ AvoidTheJoker.Game.prototype = {
 	    }
 	},
 
-	restartGame: function () {
-	    this.level = -1;
+	levelDown: function () {
+	    this.level++;
+
+	    if (this.level > 7)
+	        this.level = 7;
 
 	    this.create();
 
