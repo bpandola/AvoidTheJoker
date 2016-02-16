@@ -1,5 +1,5 @@
 
-Concentration.Preloader = function (game) {
+AvoidTheJoker.Preloader = function (game) {
 
 	this.background = null;
 	this.preloadBar = null;
@@ -8,7 +8,7 @@ Concentration.Preloader = function (game) {
 
 };
 
-Concentration.Preloader.prototype = {
+AvoidTheJoker.Preloader.prototype = {
 
 	preload: function () {
 

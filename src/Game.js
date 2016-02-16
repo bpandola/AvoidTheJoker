@@ -1,5 +1,5 @@
 
-Concentration.Game = function (game) {
+AvoidTheJoker.Game = function (game) {
 
 	//	When a State is added to Phaser it automatically has the following properties set on it, even if they already exist:
 
@@ -29,7 +29,7 @@ Concentration.Game = function (game) {
     this.level = 7;
 };
 
-Concentration.Game.prototype = {
+AvoidTheJoker.Game.prototype = {
 
 	create: function () {
         this.prevTile = null;

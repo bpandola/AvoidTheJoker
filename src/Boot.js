@@ -1,4 +1,4 @@
-Concentration = {
+AvoidTheJoker = {
 
     /* Here we've just got some global level vars that persist regardless of State swaps */
     score: 0,
@@ -11,10 +11,10 @@ Concentration = {
 
 };
 
-Concentration.Boot = function (game) {
+AvoidTheJoker.Boot = function (game) {
 };
 
-Concentration.Boot.prototype = {
+AvoidTheJoker.Boot.prototype = {
 
     init: function () {
 
@@ -62,7 +62,7 @@ Concentration.Boot.prototype = {
 
     enterIncorrectOrientation: function () {
 
-        Concentration.orientated = false;
+        AvoidTheJoker.orientated = false;
 
         document.getElementById('orientation').style.display = 'block';
 
@@ -70,7 +70,7 @@ Concentration.Boot.prototype = {
 
     leaveIncorrectOrientation: function () {
 
-        Concentration.orientated = true;
+        AvoidTheJoker.orientated = true;
 
         document.getElementById('orientation').style.display = 'none';
 
