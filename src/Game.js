@@ -27,6 +27,8 @@ AvoidTheJoker.Game = function (game) {
     this.tiles;
     this.busy;
     this.level = 7;
+    this.leftMost;
+    this.rightMost;
 };
 
 AvoidTheJoker.Game.prototype = {
@@ -38,75 +40,80 @@ AvoidTheJoker.Game.prototype = {
             this.level = 7;
         }
 
+       
         this.game.world.removeAll();
-        //this.bg = this.game.add.sprite(0,0,'bg');
+	    //this.bg = this.game.add.sprite(0,0,'bg');
+        if (this.tiles != null) {
+            this.tiles.destroy(true, true);
+        }
         this.tiles = this.game.add.group();
-        //var animals = ["ace","two","three","four","five","six","seven","eight","nine","joker"];
-	    //animals = animals.concat(animals);
+        
         var cards = ["ace", "two", "three", "four", "five", "six", "seven", "eight", "nine", "joker"];
         cards = cards.splice(0, this.level);
         cards[this.level - 1] = "joker";
         cards = Phaser.ArrayUtils.shuffle(cards);
-        var tileSize = 128;
+
         var tileWidth = 198;
         var tileHeight = 275;
         var tileSpacing = 2;
-        var cols = 10;
+        
         for (var i = 0; i < this.level; i++) {
-            var xx = (i%cols) * tileWidth + (i*tileSpacing);
-            var yy = Math.floor(i/cols) * tileHeight;
-            var randomName = cards[i]; // Phaser.ArrayUtils.removeRandomItem(animals);
-            var tile = new Tile(this.game,xx,yy,"cards",randomName+".png");
+            var xx = i * (tileWidth + tileSpacing);
+            var cardName = cards[i]; 
+            var tile = new Tile(this.game,xx,0,"cards",cardName+".png",i);
             this.tiles.add(tile);
-            tile.animal = randomName;
+            tile.card = cardName;
             tile.onTap.add(this.onTileTap,this);
         }
         this.tiles.x = this.game.width/2 - this.tiles.width/2 + (tileWidth/2);
-        this.tiles.y = this.game.height/2 - this.tiles.height/2 + (tileHeight/2);
+        this.tiles.y = this.game.height / 2 - this.tiles.height / 2 + (tileHeight / 2);
+
+        this.leftMost = 0;
+        this.rightMost = this.level - 1;
+
+        this.busy = false;
 	},
 
 	onTileTap: function (tile) {
-	    console.log("TonTap");
-        if(this.busy){
-            return;
-        }
-        this.busy = true;
-        tile.reveal();
+	    
         
+	    if (this.busy) {
+	        console.log("busy");
+            return;
+	    }
+	    console.log("not busy");
+
+	    if (tile.num === this.leftMost || tile.num === this.rightMost) {
+	       
+
+	        this.busy = true;
+	        tile.reveal();
+	    } else {
+	        console.log("not left or rightmost");
+	        return;
+	    }
        
-        //if(this.prevTile === null){
-        //    this.prevTile = tile;
-        //    this.busy = false;
-        //    return;
-        //}
-        if (tile.animal === "joker") {
-            var t = this.game.time.create(true);
+	    var t = this.game.time.create(true);
+        if (tile.card === "joker") {
+           
             t.add(1000, function () {
 
                 this.levelUp();
 
-
-
-
-                //if(this.prevTile.animal !== tile.animal){
-                //    console.log("No match: ",this.prevTile.animal,tile.animal);
-                //    this.prevTile.hide();
-                //    tile.hide();
-                //    this.prevTile = null;
-                //}else if(this.prevTile.animal === tile.animal){
-                //    console.log("Match: ",this.prevTile.animal,tile.animal);
-                //    this.tiles.removeChild(this.prevTile);
-                //    this.tiles.removeChild(tile);
-                //    this.prevTile = null;
-                //    if(this.tiles.children.length===0){
-                //        this.quitGame();
-                //    }
-                //}
-                this.busy = false;
+                //this.busy = false;
             }, this);
             t.start();
         } else {
-            this.busy = false;
+            t.add(200, function () {
+                if (tile.num === this.leftMost)
+                    this.leftMost = tile.num + 1;
+                else if (tile.num === this.rightMost)
+                    this.rightMost = tile.num - 1;
+                
+
+                this.busy = false;
+            }, this);
+            t.start();
         }
         
     },
@@ -132,6 +139,7 @@ AvoidTheJoker.Game.prototype = {
 
 		//	Here you should destroy anything you no longer need.
 		//	Stop music, delete sprites, purge caches, free resources, all that good stuff.
+	    
 
 		//	Then let's go back to the main menu.
 		this.state.start('MainMenu');

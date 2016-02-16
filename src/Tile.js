@@ -1,7 +1,8 @@
 var Tile = (function () {
-    var Tile = function (game,x,y,image,frame) {
+    var Tile = function (game,x,y,image,frame,tileNum) {
         Phaser.Group.call(this,game);
-        this.animal = "";
+        this.card = "";
+        this.num = tileNum;
         this.hidden = true;
         this.onTap = new Phaser.Signal();
         this.x = x;
@@ -32,11 +33,13 @@ var Tile = (function () {
     };
 
     Tile.prototype.dispatchStateChange = function () {
+        console.log("dispatchTap");
         this.onTap.dispatch(this);
     };
 
     Tile.prototype.reveal = function () {
-        //this.hidden = false;
+        console.log("reveal: " + this.num);
+        this.hidden = false;
         var t1 = this.game.add.tween(this.back.scale).to({
             x:0
         },80,Phaser.Easing.Linear.None);
