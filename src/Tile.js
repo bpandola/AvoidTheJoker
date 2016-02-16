@@ -38,7 +38,6 @@ var Tile = (function () {
     };
 
     Tile.prototype.reveal = function () {
-        console.log("reveal: " + this.num);
         this.hidden = false;
         var t1 = this.game.add.tween(this.back.scale).to({
             x:0

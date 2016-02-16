@@ -53,6 +53,13 @@ AvoidTheJoker.Game.prototype = {
         cards[this.level - 1] = "joker";
         cards = Phaser.ArrayUtils.shuffle(cards);
 
+        if (this.level === 7) {
+            while (cards[0] == "joker" || cards[6] == "joker") {
+                cards = Phaser.ArrayUtils.shuffle(cards);
+            }
+        }
+        console.log(cards);
+
         var tileWidth = 198;
         var tileHeight = 275;
         var tileSpacing = 2;
@@ -78,10 +85,8 @@ AvoidTheJoker.Game.prototype = {
 	    
         
 	    if (this.busy) {
-	        console.log("busy");
             return;
 	    }
-	    console.log("not busy");
 
 	    if (tile.num === this.leftMost || tile.num === this.rightMost) {
 	       
@@ -89,18 +94,21 @@ AvoidTheJoker.Game.prototype = {
 	        this.busy = true;
 	        tile.reveal();
 	    } else {
-	        console.log("not left or rightmost");
 	        return;
 	    }
        
 	    var t = this.game.time.create(true);
         if (tile.card === "joker") {
            
+            
             t.add(1000, function () {
+                if (this.leftMost == this.rightMost) {
+                    this.levelUp();
+                } else {
+                    this.restartGame();
+                }
 
-                this.levelUp();
-
-                //this.busy = false;
+                
             }, this);
             t.start();
         } else {
@@ -124,18 +132,25 @@ AvoidTheJoker.Game.prototype = {
 
 	},
 
-	levelUp: function (pointer) {
+	levelUp: function () {
 	    this.level--;
 
 	    if (this.level === 1) {
 	        this.level = -1;
-	        this.quitGame();
+	        this.state.start('GameWon');
 	    } else {
 	        this.create();
 	    }
 	},
 
-	quitGame: function (pointer) {
+	restartGame: function () {
+	    this.level = -1;
+
+	    this.create();
+
+	},
+
+	quitGame: function () {
 
 		//	Here you should destroy anything you no longer need.
 		//	Stop music, delete sprites, purge caches, free resources, all that good stuff.
