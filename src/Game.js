@@ -67,7 +67,7 @@ AvoidTheJoker.Game.prototype = {
         for (var i = 0; i < this.level; i++) {
             var xx = i * (tileWidth + tileSpacing);
             var cardName = cards[i]; 
-            var tile = new Tile(this.game,xx,0,"cards",cardName+".png",i);
+            var tile = new Card(this.game,xx,0,"cards",cardName+".png",i);
             this.tiles.add(tile);
             tile.card = cardName;
             tile.onTap.add(this.onTileTap,this);

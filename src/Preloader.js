@@ -15,6 +15,9 @@ AvoidTheJoker.Preloader.prototype = {
 		this.load.image('playButton', 'images/play.png');
 		this.load.atlas('cards', 'images/cards.png', 'images/cards.json');
 
+	    // sound
+        this.load.audio('music',['sfx/Street Fighter II Arcade Music - Character Select - CPS1.mp3'])
+
 	},
 
 	create: function () {

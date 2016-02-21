@@ -1,5 +1,5 @@
-var Tile = (function () {
-    var Tile = function (game,x,y,image,frame,tileNum) {
+var Card = (function () {
+    var Card = function (game,x,y,image,frame,tileNum) {
         Phaser.Group.call(this,game);
         this.card = "";
         this.num = tileNum;
@@ -17,10 +17,10 @@ var Tile = (function () {
         this.back.events.onInputDown.add(this.dispatchStateChange,this);
     };
 
-    Tile.prototype = Object.create(Phaser.Group.prototype);
-    Tile.prototype.constructor = Tile;
+    Card.prototype = Object.create(Phaser.Group.prototype);
+    Card.prototype.constructor = Card;
 
-    Tile.prototype.hide = function () {
+    Card.prototype.hide = function () {
         this.hidden = true;
         var t1 = this.game.add.tween(this.back.scale).to({
             x:1
@@ -32,11 +32,11 @@ var Tile = (function () {
         t2.start();
     };
 
-    Tile.prototype.dispatchStateChange = function () {
+    Card.prototype.dispatchStateChange = function () {
         this.onTap.dispatch(this);
     };
 
-    Tile.prototype.reveal = function () {
+    Card.prototype.reveal = function () {
         this.hidden = false;
         var t1 = this.game.add.tween(this.back.scale).to({
             x:0
@@ -49,5 +49,5 @@ var Tile = (function () {
     };
 
 
-    return Tile;
+    return Card;
 }());

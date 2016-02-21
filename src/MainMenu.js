@@ -26,7 +26,9 @@ AvoidTheJoker.MainMenu.prototype = {
 
 	startGame: function (pointer) {
 
-		//	And start the actual game
+	    //	And start the actual game
+	    var music = this.add.audio('music');
+	    music.play();
 		this.state.start('Game');
 
 	}
